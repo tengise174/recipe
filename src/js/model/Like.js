@@ -1,12 +1,18 @@
 export default class Like {
     constructor() {
-        this.likes = [];
+
+        this.readDataFromLocalStorage();
+
+        if (!this.likes) this.likes = [];
     }
 
     addLike(id, title, publisher, img) {
         const like = { id, title, publisher, img };
 
         this.likes.push(like);
+
+        // storage ruu hadgalna
+        this.saveDataToLocalStorage();
 
         return like;
     }
@@ -17,6 +23,9 @@ export default class Like {
 
         // Уг индекс дээрх элементийг массиваас устгана
         this.likes.splice(index, 1);
+
+        // storage ruu hadgalna
+        this.saveDataToLocalStorage();
     }
 
     isLiked(id) {
@@ -28,5 +37,14 @@ export default class Like {
 
     getNumberOfLikes() {
         return this.likes.length;
+    }
+
+    saveDataToLocalStorage() {
+        localStorage.setItem('likes', JSON.stringify(this.likes));
+    }
+
+    readDataFromLocalStorage() {
+        this.likes = JSON.parse(localStorage.getItem('likes'));
+
     }
 }
